@@ -1,0 +1,73 @@
+Web szerver létrehozása a Linux szerveren
+
+Frissítsük le a sudo apt-get update paranccsal
+ 
+Ezt követően installáljuk a samba-t ezzel a paranccsal:
+Sudo apt-get install samba
+ 
+Amikor rá kérdez, hogy folytassuk akkor nyomjunk egy Y-t
+Installálásnál ezt az errort írja ki
+ 
+
+Installáljuk az MC-t ezzel a parancssal: sudo apt-get install mc
+ 
+Az MC letöltését követően is ugyan ezt az errort kapjuk
+
+A konfiguráción belül húzzuk ki az INTNETes kábelt és indítsuk újra a szervert
+Majd próbáljuk meg telepíteni ismét a samba-t
+Ugyan az a hiba.
+ 
+Futtassuk a sudo-apt get update parancsot:
+ 
+
+Ezt követően futtassuk a sudo apt-get upgrade parncsot is
+Ez után ismét próbáljuk meg a SAMBA letöltését
+ 
+ 
+Sikers letöltés
+Ezt követően installáljuk az MC-t
+ 
+Sikeres
+ 
+Következő lépés:
+Sdo apt-get install apache2
+ 
+Sikeres telepítés:
+ Következőnek töltsük le a PHP-t
+ 
+Dugjuk vissza a belsőhálózati kábelt
+ 
+Ezt követően indítsuk újra a szervert.
+
+Használjuk a sudo mc parancsot
+ 
+Menjünk be a /etc/netplan ba és itt ezt a fájlt editeljük
+ 
+Ha felugrik ez az ablak akkor válasszuk ki a nekünk megfelelő szerkesztői felületet
+ 
+Állítsuk ár az IP címet
+ 
+Ez után nyissuk meg a kliensünket
+(a kliensen lehet, hogy le van tiltva a beállítások elérése ezt szüntessük meg.)
+Írjuk át az IP címet, hogy a LINUX címe legyen az alapértelmezett átjáró.
+ Ezt követően írjuk be a böngészőbe a 192.168.0.1 es IP címet
+
+Problémába ütköztünk a szerver ip címe nem elérhető a kliensről
+ 
+Úgy tűnik, hogy a kapcsolat a Kliens gép és a Linux szerver között sikertelen
+
+Következő lépés: Fájl létrehozása a sambaban
+A Sudo mc paranccsal nyissuk meg ismét az MC-t
+ Az MC ben pedig menjünk be a /etc/samba/smb.conf fájl ba
+ 
+Editeljük és a GLOBAL-on belül adjuk meg ezeket:
+ 
+A fájl legaljában pedig ezt adjuk meg:
+ 
+Ez után mentsük el
+Menjünk á a /etc/netplan -ba
+Itt pedig az F7 segítségével hozzuk létre a megosztas directory-t
+ És itt a touch paranccsal tudunk fájlt létrehozni
+ 
+És itt a létrehozott file
+ 

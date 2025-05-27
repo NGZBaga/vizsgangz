@@ -1,0 +1,63 @@
+Linux: Telepítés: Szerver hostname: sudo nano /etc/hosts hostname hostname –f
+
+Szerver tartomány:
+	sudo nano /etc/resolv.conf
+		search andok.and
+Szerver fájlrendszere:
+	df –T
+
+Szerver ip címe:
+	sudo nano /etc/netplan/*.yaml
+Csomagszűrés:
+
+sudo apt install ufw
+
+sudo ufw default deny incoming sudo ufw default deny outgoing
+
+Bejövő forgalom
+sudo ufw allow in 21/tcp # FTP sudo ufw allow in 22/tcp # SSH sudo ufw allow in 53/tcp # DNS TCP sudo ufw allow in 53/udp # DNS UDP
+
+Kimenő forgalom
+sudo ufw allow out 53 # DNS kifelé (TCP+UDP) sudo ufw allow out 80 # HTTP kifelé sudo ufw allow out 443 # HTTPS kifelé
+
+Engedélyezés
+sudo ufw enable
+
+sudo ufw default deny incoming sudo ufw default deny outgoing sudo ufw allow ssh sudo ufw allow http sudo ufw enable
+
+Telepítsen egy ntp szervert: sudo apt install ntpsec sudo apt install ntp
+
+sudo systemctl enable ntp sudo systemctl start ntp
+
+ellenőrizhetjük: ntpq –p
+
+Telepítsen egy:
+
+ftp szervert:
+	sudo apt install vsftpd
+sudo systemctl enable vsftpd sudo systemctl start vsftpd Konfigurációt érdemes áttekinteni /etc/vsftpd.conf. webszervert sudo apt install apache2 sudo systemctl enable apache2 sudo systemctl start apache2
+
+E-mail szervert:
+sudo apt install postfix
+3. E-mail szerver konfigurálása:
+Postfix konfigurálása: sudo nano /etc/postfix/main.cf fájl szerkesztése: myhostname = mail.yourdomain.com (szerver teljes domain neve) mydomain = yourdomain.com (a domain neve, amelyet kezel) mydestination = $myhostname, localhost.$mydomain, $mydomain (azok a domain nevek, amelyekre e-maileket fogad) mynetworks = 127.0.0.0/8 [::1]/128 (hálózat, amelyről e-maileket fogad, kezdetben csak a helyi hálózat)
+
+dns szervert:
+sudo apt install bind9 dnsutils
+sudo systemctl enable bind9
+sudo systemctl start bind9
+Konfigurációt a /etc/bind/ alatt állítasz be, zónákat, forwarderek stb.
+ssh szervert
+sudo apt install openssh-server
+sudo apt install ssh
+sudo systemctl enable ssh
+sudo systemctl start ssh
+
+
+dhcp szervert:
+	régi:
+sudo apt-get install dhcp3-server
+etc/dhcp3/dhcpd.conf állományt: $sudo mcedit /etc/dhcp3/dhcpd.conf
+                      Új:
+sudo apt install isc-dhcp-server
+Konfiguráció a /etc/dhcp/dhcpd.conf fájlban.

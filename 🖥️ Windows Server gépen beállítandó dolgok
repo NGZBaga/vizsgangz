@@ -1,0 +1,73 @@
+1. 💻 Gépnév módosítása
+System Properties → Computer Name → Change → Új név
+
+2. 🌐 Fix IP-cím beállítása
+
+IP-cím, maszk, átjáró (gateway)
+DNS szervernek saját magát kell beállítani, ha telepítünk AD-t
+Példa:
+IP: 192.168.1.10
+Maszk: 255.255.255.0
+Átjáró: 192.168.1.1
+DNS: 192.168.1.10
+
+3. 🧱 Tűzfal beállítások ellenőrzése
+Domain Controller szolgáltatásokhoz nyisd ki a szükséges portokat, vagy kapcsold ki ideiglenesen
+
+4. 🛠 Szerepkörök és szolgáltatások telepítése (Server Manager-ben)
+Legalább ezek kellenek:
+Active Directory Domain Services (AD DS)
+DNS Server
+(opcionálisan: DHCP Server, File Services, WDS, WSUS)
+
+5. 🌍 Tartomány létrehozása
+AD DS telepítése után:
+Promote this server to a domain controller → Új tartomány létrehozása (pl. mol.local)
+
+6. 🧑‍💻 Felhasználók és csoportok létrehozása
+Server Manager → Tools → Active Directory Users and Computers
+Létrehozhatsz:
+új felhasználókat
+csoportokat
+szervezeti egységeket (OU)
+
+7. 📂 Megosztott mappa beállítása jogosultságokkal
+Katt a mappára → „Megosztás” → Felhasználók hozzáadása → Jogosultságok megadása (read/write/full)
+
+8. 🖨 Nyomtató megosztása
+Telepített nyomtatót megosztani, és elérhetővé tenni a tartományi gépeknek
+
+9. 🧰 Szoftver deployment (opcionális, de plusz pont!)
+.msi fájl csoportházirenddel (GPO) való telepítése OU-ra
+
+10. 💾 Biztonsági mentés beállítása (opcionális)
+Windows Server Backup (features része)
+Rendszerkép, fájlmentés, időzített feladat
+
+🖥️ Windows KLIENS gépen beállítandó dolgok
+1. 💻 Gépnév módosítása
+Fontos, hogy ne ütközzön más géppel
+
+2. 🌐 IP-cím beállítása
+Ha nincs DHCP, akkor statikus:
+IP: 192.168.1.20
+DNS: a szerver IP-je legyen!
+
+3. 🌐 Tartományhoz való csatlakozás
+Jobb klikk a "This PC"-n → Properties → Change settings → Domain: mol.local
+Felhasználónév: tartományi admin
+Sikeres csatlakozás után újraindítás szükséges
+
+4. 🔐 Tartományi bejelentkezés
+Újraindítás után bejelentkezés pl.: mol\felhasználónév
+
+5. 📂 Megosztott mappa elérése
+Futtatás: \\szervernév\megosztásnév
+Ellenőrizni, hogy hozzáfér-e
+
+6. 🧪 Ping teszt a szerver felé
+ping 192.168.1.10
+
+7. 💻 Telepített szoftver megjelenése (ha van deployment)
+Automatikusan elérhető a „Programok és szolgáltatások” között
+

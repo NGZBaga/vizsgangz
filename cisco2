@@ -1,0 +1,88 @@
+enable                      # Privilegizált módba lépés
+configure terminal          # Globális konfigurációs mód
+hostname <név>             # Eszköz nevének beállítása
+no shutdown                 # Interface engedélyezése
+exit                        # Visszalépés egy szinttel
+copy running-config startup-config  # Konfiguráció mentése
+show running-config         # Jelenlegi konfiguráció megtekintése
+show startup-config         # Mentett konfiguráció megtekintése
+show ip interface brief     # Interfészek összefoglalása
+
+🌐 IP-cím beállítása interfészen
+interface GigabitEthernet0/0  # Interface módba lépés
+ip address 192.168.1.1 255.255.255.0  # IP-cím és maszk megadása
+no shutdown                   # Interface aktiválása
+
+🔁 VLAN konfigurálása (switch)
+vlan 10
+name IRODA1
+exit
+
+interface FastEthernet0/1
+switchport mode access
+switchport access vlan 10
+
+🎯 Default gateway beállítása (switch)
+ip dhcp excluded-address 192.168.1.1 192.168.1.10  # Kizárt IP-k
+ip dhcp pool LAN
+ network 192.168.1.0 255.255.255.0
+ default-router 192.168.1.1
+ dns-server 8.8.8.8
+
+🛡 Statikus routing
+ip route 0.0.0.0 0.0.0.0 192.168.1.254  # Default route
+ip route 10.0.0.0 255.255.255.0 192.168.2.1  # Statikus route
+
+🔒 Telnet / SSH beállítás
+line vty 0 4
+password cisco
+login
+
+# SSH-hoz:
+ip domain-name mol.local
+crypto key generate rsa
+username admin password mol123
+line vty 0 4
+login local
+transport input ssh
+
+🔐 Enable jelszó beállítása
+enable secret moladmin
+
+📡 NAT konfigurálása (routeren)
+interface GigabitEthernet0/1
+ip nat inside
+
+interface GigabitEthernet0/0
+ip nat outside
+
+access-list 1 permit 192.168.1.0 0.0.0.255
+ip nat inside source list 1 interface GigabitEthernet0/0 overload
+
+🔥 Cisco ASA (alap parancsok)
+enable
+configure terminal
+hostname ASA1
+interface GigabitEthernet0/0
+nameif outside
+security-level 0
+ip address dhcp setroute
+no shutdown
+
+interface GigabitEthernet0/1
+nameif inside
+security-level 100
+ip address 192.168.1.1 255.255.255.0
+no shutdown
+
+route outside 0.0.0.0 0.0.0.0 dhcp
+
+📋 Egyéb hasznos parancsok vizsgára
+show vlan brief              # VLAN-ok listája
+show ip route                # Routing tábla
+show interfaces status       # Interface állapotok
+show version                 # IOS verzió, eszköz adatok
+show arp                     # ARP tábla
+show mac address-table       # Switch MAC tábla
+
+Konfigurációs sorrend: hostname → interface → IP → no shutdown → routing → mentés

@@ -1,0 +1,64 @@
+Sudo apt-get update parancssal frissítsük a Linuxot 
+Most pedig sudo apt-get install samba
+Majd sudo apt-get install mc
+a sudo mc paranccsal pedig menjünk be a /etc/netplan-ba
+50-cloud-init.yalm
+ 
+Itt pedig adjuk meg a címeket:
+network:
+  version: 2
+  ethernets:
+    enp0s3:
+      dhcp4: true
+    enp0s8:
+      addresses:
+      - ""
+      nameservers:
+        addresses:
+      - 172.16.0.1
+      search:
+      - valami.net
+    routes:
+    -  to: default
+       via: 172.16.0.1
+
+Futtassuk ezt a parancsot a /etc/samba-n belül
+
+sudo mv smb.conf.bak
+ 
+Most pedig menjünk ide: 
+/etc/samba/smb.conf
+Ide pedig írjuk ezt:
+
+global
+server string = File Server
+workgroup = VALAMI
+security = user
+map to guest = Bad User
+name resolve order = bcast host
+include = /etc/samba/shares.conf
+
+Most pedig a sudo nano shares.conf
+ 
+Itt pedig írjuk be ezeket majd mentsünk
+
+kozos
+path = /share/kozos
+force user = smbuser
+force group = smbgroup
+create mask = 0664
+force create mode = 0664
+directory mask = 0775
+force directory mode = 0775
+public = yes
+writable = yes
+ 
+Majd ezeket a parancsokat:
+sudo groupadd --system smbgroup 
+cat /etc/group
+sudo useradd --system --no-create-home --group smbgroup -s /bin/false smbuser
+sudo chown -R smbuser:smbgroup /share
+sudo chmod -R g+w /share
+sudo systemctl start smbd
+Ezt követően a kliensről látni kéne a közöst, ha hozzá csatoljuk / rá keresünk a linux IP címére
+ 
